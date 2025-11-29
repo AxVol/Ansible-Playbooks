@@ -1,0 +1,48 @@
+- name: Setup for ansible
+  hosts: 
+  become: true
+
+  tasks:
+    - name: Create user
+      user:
+        name: ansible
+        shell: /bin/bash
+        append: true
+        groups: 
+        password: 
+        update_password: on_create
+
+    - name: Create sudoers file
+      copy:
+        dest: "/etc/sudoers.d/ansible"
+        content: "ansible ALL=(ALL) NOPASSWD: ALL"
+        owner: root
+        group: root
+        mode: 0440
+        validate: 'visudo -cf %s'
+
+    - name: create .ssh folder
+      file:
+        path: "/home/ansible/.ssh/"
+        state: directory
+        owner: ansible
+
+    - name: upload ssh keys
+      copy:
+        src: 
+        dest: "/home/ansible/.ssh/authorized_keys"
+        owner: ansible
+
+    - name: Block ssh by password
+      blockinfile:
+        path: /etc/ssh/sshd_config
+        insertafter: EOF
+        state: present
+        block: |
+          Match User ansible
+          PasswordAuthentication no
+
+    - name: Restart ssh service
+      service:
+        name: ssh
+        state: restarted
