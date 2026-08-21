@@ -1,0 +1,7 @@
+---
+# tasks file for proxy_server
+
+- ansible.builtin.include_tasks: apache.yml
+- ansible.builtin.include_tasks: squid.yml
+- ansible.builtin.include_tasks: logs_analyzer.yml
+- ansible.builtin.include_tasks: iptables.yml

@@ -1,0 +1,15 @@
+---
+# handlers file for proxy_server
+
+- name: restart squid apache
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+    enabled: true
+  listen: restart apache
+
+- name: restart squid
+  ansible.builtin.service:
+    name: squid
+    state: restarted
+    enabled: true

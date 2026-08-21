@@ -1,0 +1,34 @@
+- name: install squid
+  ansible.builtin.apt:
+    name: squid
+    update_cache: true
+
+- name: install conf
+  ansible.builtin.template:
+    src: squid.conf.j2
+    dest: /etc/squid/squid.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: "restart squid"
+
+- name: create dir for acls
+  ansible.builtin.file:
+    path: "/etc/squid/acls"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: install acl confs
+  ansible.builtin.template:
+    src: "acls/{{ item }}.j2"
+    dest: "/etc/squid/acls/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - black_list
+    - block_subnets
+    - white_local_list
+  notify: "restart squid"

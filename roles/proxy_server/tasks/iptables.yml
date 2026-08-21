@@ -1,0 +1,64 @@
+- name: install iptables
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    update_cache: true
+  loop:
+    - iptables
+    - iptables-persistent
+
+- name: base config for output
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    policy: ACCEPT
+
+- name: track connection
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+
+- name: allow localhost input
+  ansible.builtin.iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+    comment: "local interface"
+
+- name: Allow SSH on port 22
+  ansible.builtin.iptables:
+    chain: INPUT
+    source: "{{ item }}"
+    protocol: tcp
+    destination_port: 22
+    jump: ACCEPT
+  loop: "{{ ssh_ips }}"
+
+- name: Allow proxy connect
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ proxy_port }}"
+    jump: ACCEPT
+    comment: "Allow proxy connection"
+
+- name: Allow connect to web from IT
+  ansible.builtin.iptables:
+    chain: INPUT
+    source: "{{ ip_for_web_log }}"
+    protocol: tcp
+    destination_port: 80
+    jump: ACCEPT
+    comment: "Allow web interface connection"
+
+- name: base config for forward and input
+  ansible.builtin.iptables:
+    chain: FORWARD
+    policy: DROP
+  loop:
+    - FORWARD
+    - INPUT
+
+- name: Save iptables rules to file
+  community.general.iptables_state:
+    state: saved
+    path: /etc/iptables/rules.v4

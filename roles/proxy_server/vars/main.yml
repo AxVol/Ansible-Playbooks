@@ -1,0 +1,10 @@
+proxy_port: 5090
+ip_for_web_log:
+ssh_ips:
+  - 
+white_list:
+  - 
+block_subnets:
+  - 
+black_list:
+  - 

@@ -1,0 +1,13 @@
+- name: install apache
+  ansible.builtin.apt:
+    update_cache: true
+    name: apache2
+
+- name: turn on modules
+  community.general.apache2_module:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - proxy
+    - proxy_http
+  notify: restart apache
