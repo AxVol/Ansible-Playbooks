@@ -17,3 +17,8 @@
 Устанавливает на хост zabbix agent и подключает его к серверу Zabbix с базовой конфигурацией. Поодерживает RedHat-based, Debian-based, Astra Linux. Реализована установка обоих версий агента.
 
 Подробнее - [README](roles/zabbix-agent/README.md)
+
+### proxy_server
+Устанавливает на хост squid прокси и лог аналайзер сетевой активности. Поддерживает Debian-based дистрибутивы.
+
+Подробнее - [README](roles/proxy_server/README.md)
