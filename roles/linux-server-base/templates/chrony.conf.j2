@@ -14,10 +14,8 @@ maxupdateskew 100
 
 {% if chrony_keyfile %}
 keyfile {{ chrony_keyfile }}
-commandkey {{ chrony_cmdkey }}
+commandkey 1
 {% endif %}
 
-{% if chrony_logdir %}
-logdir {{ chrony_logdir }}
+logdir /var/log/chrony
 log tracking measurements statistics
-{% endif %}
