@@ -22,3 +22,8 @@
 Устанавливает на хост squid прокси и лог аналайзер сетевой активности. Поддерживает Debian-based дистрибутивы.
 
 Подробнее - [README](roles/proxy_server/README.md)
+
+### linux-server-base
+Роль с базовой настройкой линукс сервера, установка утилит, добавление пользователей, ssh и ntp.
+
+Подробнее - [README](roles/linux-server-base/README.md)
