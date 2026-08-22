@@ -1,0 +1,21 @@
+- name: copy certs for Debian-based
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/usr/local/share/ca-certificates/""
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ lookup('fileglob', '/ansible/files/certs/*.crt', wantlist=True) }}"
+  notify: update-ca-certificates
+  when: ansible_facts['os_family'] == 'Debian' or ansible_facts['os_family'] == 'Astra Linux'
+
+- name: copy certs for REdHat-based
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/pki/ca-trust/source/anchors/"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ lookup('fileglob', '/ansible/files/certs/*.crt', wantlist=True) }}"
+  notify: update-ca-trust
+  when: ansible_facts['os_family'] == 'RedHat'

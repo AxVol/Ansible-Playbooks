@@ -1,0 +1,22 @@
+---
+# List of vars with packages name in Debian-based systems
+tools:
+  - openssh-server
+  - curl
+  - wget
+  - ufw
+  - nethogs
+  - iftop
+  - sysstat
+  - iotop
+  - rsync
+  - nano
+  - screen
+  - htop
+  - ca-certificates
+  - tar
+  - cloud-guest-utils
+  - gdisk
+
+# Name of SSH service
+ssh_name: ssh

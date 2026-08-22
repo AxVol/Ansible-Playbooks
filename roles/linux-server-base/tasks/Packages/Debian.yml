@@ -1,0 +1,10 @@
+---
+- name: Installing utilities for server
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: full
+
+- name: Installing utilities for server
+  ansible.builtin.apt:
+    name: "{{ tools }}"
+    state: present

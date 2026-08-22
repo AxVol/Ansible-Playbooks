@@ -1,0 +1,29 @@
+---
+#
+# SSH
+#
+- name: Restarting SSHd service. Reriding Config
+  ansible.builtin.service:
+    name: "{{ ssh_name | default('ssh') }}"
+    state: restarted
+  listen: reload-sshd
+#
+# Chrony
+#
+- name: Restarting Chrony
+  ansible.builtin.systemd_service:
+    name: "{{ chrony_service_name | default('chrony') }}"
+    state: restarted
+  listen: restart chrony
+#
+# CA
+#
+- name: Install certs for debian-based
+  ansible.builtin.command: update-ca-certificates
+  changed_when: true
+  listen: update-ca-certificates
+
+- name: Install certs for RedHat-based
+  ansible.builtin.command: update-ca-trust extract
+  changed_when: true
+  listen: update-ca-trust

@@ -1,0 +1,23 @@
+confdir /etc/chrony/conf.d
+
+{% for server in chrony_servers %}
+server {{ server }}
+{% endfor %}
+
+{% if chrony_driftfile %}
+driftfile {{ chrony_driftfile }}
+{% endif %}
+
+rtcsync
+makestep 1.0 3
+maxupdateskew 100
+
+{% if chrony_keyfile %}
+keyfile {{ chrony_keyfile }}
+commandkey {{ chrony_cmdkey }}
+{% endif %}
+
+{% if chrony_logdir %}
+logdir {{ chrony_logdir }}
+log tracking measurements statistics
+{% endif %}

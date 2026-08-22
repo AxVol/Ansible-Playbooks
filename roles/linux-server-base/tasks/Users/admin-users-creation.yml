@@ -1,0 +1,19 @@
+---
+- name: Creating Administrator's users
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    groups: "{{ admin_groups }}"
+    append: true
+    shell: /bin/bash
+    create_home: true
+    update_password: on_create
+    password: "{{ item.password }}"
+    state: present
+  loop: "{{ admins }}"
+  register: user_creation
+
+- name: Pushin password expire for new users # noqa: no-handler
+  ansible.builtin.command: "passwd -e {{ item.item.name }}"
+  loop: "{{ user_creation.results }}"
+  when: item.changed
+  changed_when: true

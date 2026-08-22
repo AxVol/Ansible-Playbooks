@@ -1,0 +1,21 @@
+---
+# List of vars with packages name in RedHat-based systems
+tools:
+  - curl
+  - wget
+  - firewalld
+  - nethogs
+  - iftop
+  - sysstat
+  - iotop
+  - rsync
+  - nano
+  - screen
+  - htop
+  - ca-certificates
+  - tar
+  - cloud-utils-growpart
+  - gdisk
+
+# Name of SSH service
+ssh_name: sshd

@@ -1,0 +1,39 @@
+---
+- name: Ensure /run/sshd exists for validation
+  ansible.builtin.file:
+    path: /run/sshd
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: SSH Configuration. Turning Off Root Login
+  ansible.builtin.copy:
+    src: 99-root-block.conf
+    dest: /etc/ssh/sshd_config.d/
+    mode: '0644'
+    owner: root
+    group: root
+    validate: 'sshd -t -f %s'
+  notify: reload-sshd
+
+- when: "{{ ssh_keys }}" == true
+  block:
+    - name: deploy key
+      ansible.builtin.copy:
+        src: "{{ item.key_path }}"
+        dest: "/home/{{ item.name }}/.ssh/authorized_keys"
+        owner: "{{ item.name }}"
+        group: "{{ item.name }}"
+        mode: '0600'
+      loop: "{{ admins }}"
+
+    - name: Setup key login
+      ansible.builtin.copy:
+        src: 98-ssh-keys.conf
+        dest: /etc/ssh/sshd_config.d/
+        owner: root
+        group: root
+        mode: '0644'
+        validate: 'sshd -t -f %s'
+      notify: reload-sshd

@@ -1,0 +1,5 @@
+chrony_servers:
+  - "ntp1.yandex.net iburst"
+  - "ntp2.yandex.net iburst"
+  - "ntp.ix.ru iburst"
+

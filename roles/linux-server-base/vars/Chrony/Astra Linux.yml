@@ -1,0 +1,4 @@
+chrony_service_name: chrony
+chrony_conf_dest: /etc/chrony/chrony.conf
+chrony_driftfile: /var/lib/chrony/chrony.drift
+chrony_keyfile: /etc/chrony/chrony.keys

@@ -1,0 +1,15 @@
+---
+- name: epel-relese installation
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+
+- name: dnf update and full upgrade
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+- name: Installing utilities for server
+  ansible.builtin.dnf:
+    name: "{{ tools }}"
+    state: present
