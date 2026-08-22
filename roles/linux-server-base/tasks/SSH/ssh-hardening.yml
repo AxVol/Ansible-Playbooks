@@ -17,7 +17,7 @@
     validate: 'sshd -t -f %s'
   notify: reload-sshd
 
-- when: "{{ ssh_keys }}" == true
+- when: ssh_keys | default(false) | bool
   block:
     - name: deploy key
       ansible.builtin.copy:

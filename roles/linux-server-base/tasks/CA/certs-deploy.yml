@@ -1,7 +1,7 @@
 - name: copy certs for Debian-based
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "/usr/local/share/ca-certificates/""
+    dest: "/usr/local/share/ca-certificates/"
     owner: root
     group: root
     mode: '0644'
